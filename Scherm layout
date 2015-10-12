@@ -1,0 +1,47 @@
+__author__ = 'Cindy'
+
+from tkinter import *
+
+# maak een scherm aan
+scherm = Tk()
+
+# verzend knop config
+def verzend_knop():
+    verzenden = Button(scherm,text="Verzenden", fg="red")
+    verzenden.grid(row=3, column=1, sticky=W)
+
+# sluiten knop
+def scherm_sluiten():
+    sluit = Button(scherm, text="Sluiten", command=scherm.quit)
+    sluit.grid(row=4, column=1, sticky=W)
+
+# config voor naamveld
+def naam_veld():
+    naam = Label(scherm, text="Naam:")
+    naamVeld = Entry(scherm)
+    # grid voor het naam veld sticks naar richts (east)
+    naam.grid(row=0, sticky=E)
+    naamVeld.grid(row=0, column=1)
+
+# config voor achternaamveld
+def achternaam_veld():
+    achternaam = Label(scherm, text="Achternaam:")
+    achternaamVeld = Entry(scherm)
+    achternaam.grid(row=1, sticky=E)
+    achternaamVeld.grid(row=1, column=1)
+
+# config voor e-mail veld
+def email_veld():
+    email = Label(scherm, text="E-mail:")
+    emailVeld = Entry(scherm)
+    email.grid(row=2, sticky=E)
+    emailVeld.grid(row=2, column=1)
+
+naam_veld()
+achternaam_veld()
+email_veld()
+verzend_knop()
+scherm_sluiten()
+
+# zorgt ervoor dat het scherm niet aflsuit in 1 keer
+scherm.mainloop()
