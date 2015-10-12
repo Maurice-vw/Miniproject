@@ -1,0 +1,14 @@
+# importeer alles van tkinter
+from tkinter import *
+
+# maak een scherm aan
+scherm = Tk()
+
+# label met als tekst: Thuisbioscoop
+label = Label(scherm, text='Thuisbioscoop')
+
+# voeg alles toe
+label.pack()
+
+# zorgt ervoor dat het scherm niet aflsuit in 1 keer
+scherm.mainloop()
