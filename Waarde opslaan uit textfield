@@ -1,0 +1,13 @@
+
+#verkrijg tekstveld input
+def get_var():
+    print(var.get())
+
+
+var = StringVar()
+veld = Entry(scherm, textvariable=var)
+veld.grid(row=0, column=1)
+
+# button print nu de waarde van var in de console
+button = Button(scherm,text="ok", command=get_var)
+button.grid(row=1, column=1)
