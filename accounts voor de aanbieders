@@ -1,23 +1,21 @@
-__author__ = 'niek'
 store_user= []
 store_pass= []
 
 def account_maken():
-    user = input('Create Username: ')
-    password = input('Create Password: ')
+    user = input('Username Aanmaken: ')
+    password = input('Wachtwoord Aanmaken: ')
     global store_user
     global store_pass
     store_user =["roger", "Jon"]
     store_pass =["tennis", "soccer"]
-
     store_user.append(user)
     store_pass.append(password)
 
 def inloggen():
-    userguess=input('User Name:')
-    passwordguess=input('Password:')
+    userguess=input('Username:')
+    passwordguess=input('Wachtwoord:')
     while (userguess not in store_user) or (passwordguess not in store_pass):
-        print("dit is een onjuiste user name of wachtwoord")
+        print("Username of wachtwoord incorrect.")
         userguess=input('User Name:')
         passwordguess=input('Password:')
     return userguess
@@ -25,32 +23,30 @@ def inloggen():
 def acties(user):
     actie= 1
     while True:
-        print(user + "wat wilt u nu gaan doen?")
-        actie = int(input("druk 1 in om uw aanbiedingen te zien of druk 2 in om uit te loggen:"))
+        print("Wat wilt u gaan doen?")
+        actie = int(input("1. Uw aandiedingen 2. Nieuwe aanbieding maken. 3. Uitloggen:"))
         if actie == 1:
             pass
         elif actie == 2:
-            print('je bent nu uitgelogd')
+            pass
+        elif actie == 3:
+            print('Je bent uitgelogd.')
             break
         else:
             continue
 
 while True:
-
-    print("Wil je een account maken of inloggen")
-    keuze= int(input("Kies 1 voor accountmaken, 2 voor inloggen en 3 voor afsluiten:"))
+    print("Wil je een account maken of inloggen?")
+    keuze= int(input("1. Account aanmaken 2. Inloggen 3. Afsluiten:"))
     if keuze == 1:
         account_maken()
-
     elif keuze == 2:
         user=inloggen()
-        print ("Welkom,",user, ". U bent nu ingelogd.")
+        print ("Welkom",user+'.',"U bent nu ingelogd.")
         acties(user)
     elif keuze == 3:
-        print ('het programma is afgesloten')
+        print ('Het programma is afgesloten.')
         break
     else:
-        print('dit is niet 1,2 of 3')
+        print('Dit is geen geldige optie.')
         continue
-
-
