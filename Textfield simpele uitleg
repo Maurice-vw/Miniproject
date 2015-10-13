@@ -1,0 +1,20 @@
+from tkinter import *
+
+# scherm aanmaken
+scherm = Tk()
+
+def email_veld():
+    # label 
+    email = Label(scherm, text="E-mail:")
+    
+    # text veld
+    emailVeld = Entry(scherm)
+    
+    # grid waarop het label wordt geplaatst (sticky=E staat voor east dus naar rechts uitlijnen)
+    email.grid(row=0, sticky=E)
+    
+    # grid waarop het text veld wordt geplaatst
+    emailVeld.grid(row=2, column=1)
+  
+  # scherm blijft open staan
+  scherm.mainloop()
