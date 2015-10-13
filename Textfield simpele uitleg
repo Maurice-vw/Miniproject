@@ -16,5 +16,9 @@ def email_veld():
     # grid waarop het text veld wordt geplaatst
     emailVeld.grid(row=2, column=1)
   
+  #!!!!!!!!!!!!!!!!!!!!!!!! hier aanroepen
+  email_veld()
+  
+  
   # scherm blijft open staan
   scherm.mainloop()
