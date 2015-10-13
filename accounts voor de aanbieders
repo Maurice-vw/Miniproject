@@ -26,12 +26,10 @@ def acties(user):
     actie= 1
     while True:
         print(user + "wat wilt u nu gaan doen?")
-        actie = int(input("druk 1 in om uw aanbiedingen te zien, druk 2 in om een nieuwe aanbieding te maken of druk 3 in om uit te loggen:"))
+        actie = int(input("druk 1 in om uw aanbiedingen te zien of druk 2 in om uit te loggen:"))
         if actie == 1:
             pass
         elif actie == 2:
-            pass
-        elif actie == 3:
             print('je bent nu uitgelogd')
             break
         else:
