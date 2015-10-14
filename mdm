@@ -1,0 +1,4 @@
+if any(ticketcode in  s for s in codelist):
+    print('Geldige code. Welkom.')
+else:
+    print('Ongeldige code. Geen toegang.')
