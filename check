@@ -1,0 +1,16 @@
+ticketcode = input('Geef hier je unieke code in:')
+
+while ticketcode == '':
+    print('Geen code opgegeven.')
+    ticketcode = input('Geef hier je unieke code in:')
+
+tickets = open('tickets.csv', 'r')
+with open('tickets.csv') as f:
+    codelist = list(tickets)
+f.close()
+
+if any(ticketcode in  s for s in codelist):
+    print('Geldige code. Welkom.')
+else:
+    print('Ongeldige code. Geen toegang.')
+
