@@ -1,16 +1,20 @@
+#user = input('Vul hier je username in:')
+#password = input('Vul hier je wachtwoord in:')
+
 ticketcode = input('Geef hier je unieke code in:')
 
 while ticketcode == '':
     print('Geen code opgegeven.')
-    ticketcode = input('Geef hier je unieke code in:')
+    ticketcode = input('Geef hier je unieke code in:')  #User vult hier zijn unieke code in, deze wordt later gecheckt.
 
-tickets = open('tickets.csv', 'r')
+tickets = open('tickets.csv', 'r')  #Opent het CSV-bestand en zet de informatie in een list
 with open('tickets.csv') as f:
     codelist = list(tickets)
 f.close()
 
-if any(ticketcode in  s for s in codelist):
-    print('Geldige code. Welkom.')
-else:
+if any(ticketcode in  s for s in codelist):     #Als de ingevoerde code in het bestand staan krijgt de user wel/geen toegang.
+    print('Geldige code. Welkom', user+'!')     #De user heeft een geldige code ingevoerd en krijgt toegang tot de thuisbioscioop.
+elif len(ticketcode) < 5:
     print('Ongeldige code. Geen toegang.')
-
+else:
+    print('Ongeldige code. Geen toegang.')      #De user heeft een ongeldige code ingevoerd en krijgt geen toegang tot de thuisbioscoop.
