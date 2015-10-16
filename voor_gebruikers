@@ -1,0 +1,115 @@
+import csv
+ 
+__author__ = 'Khaid Chouhaibi'
+ 
+PAD_TICKETS = "tickets.csv"
+file_tickets = None
+ 
+ 
+# het bevaten van een cijfer
+def bevat_cijfer(bekijk):
+    bekijk = str(bekijk)
+    for karakter in bekijk:
+        try:
+            karakter = int(karakter)
+            return True
+        except:
+            pass
+    return False
+ 
+ 
+# selecteren van een film
+def vraag_string_zonder_cijfer(prompt):
+    text = None
+    while text == None:
+        text_ingevoerd = input(prompt)
+        if (text_ingevoerd != "") and (not bevat_cijfer(text_ingevoerd)):
+            text = text_ingevoerd
+        else:
+            print("Foutive invoer: mag niet leeg zijn of een cijfer bevatten.")
+    return text
+ 
+ 
+def vraag_naam():
+    return vraag_string_zonder_cijfer("Voer naam in:")
+ 
+ 
+def vraag_email():
+    email = None
+    while email == None:
+        email_ingevoerd = vraag_string_zonder_cijfer("Voer email in:")
+        if "@" in email_ingevoerd:
+            email = email_ingevoerd
+        else:
+            print("Moet een '@' bevatten")
+    return email
+ 
+ 
+def vraag_film_keuzenummer(max):
+    film = None
+    while film == None:
+        try:
+            film_keuze = int(input("Voer je (film) keuzenummer in: "))
+            if film_keuze <= max:
+                film = film_keuze
+            else:
+                print("Het keuzenummer moet hoogstends %d zijn" % (max))
+        except:
+            print("Moet een cijfer zijn")
+    return film_keuze
+ 
+ 
+# een unieke code genereren
+def genereer_code():
+    from uuid import uuid4
+ 
+    return uuid4().hex
+ 
+ 
+def vraag_ticket(titellijst):
+    # naam, email en film opvragen
+    naam = vraag_naam()
+    email = vraag_email()
+    # toon titellijst
+    max = len(titellijst)
+    print("Maak je keuze uit de volgende films")
+    for keuzenummer in range(1, max + 1):
+        index = keuzenummer - 1
+        print(str(keuzenummer) + "", titellijst[index])
+    print()
+    film_keuzenummer = vraag_film_keuzenummer(len(titellijst))
+    film = titellijst[
+        film_keuzenummer - 1]
+    film = film.replace(",", ";")
+    code = genereer_code()
+    print("Jou code is:", code)
+ 
+    #returnt tuple met de volgende data:
+    return {"naam": naam, "email": email, "film": film, "code": code}  #
+ 
+ 
+# kijk maar
+def open_ticket(mode="w"):
+    global file_tickets
+    file_tickets = open(PAD_TICKETS, mode)
+ 
+ 
+def sluit_ticket():
+    global file_tickets
+    file_tickets.close()
+ 
+ 
+#ticket opslaan in de csv
+def opslaan_ticket(ticket):
+    global file_tickets
+    file_tickets.write(ticket["naam"] + "," + ticket["email"] + "," + ticket["film"] + "," + ticket["code"] + "\n")
+ 
+ 
+def lees_ticket(csvstring):
+    data = csvstring.split(",")
+    ticket = {}
+    ticket["naam"] = data[0]
+    ticket["email"] = data[1]
+    ticket["film"] = data[2]
+    ticket["code"] = data[3]
+    return ticket
