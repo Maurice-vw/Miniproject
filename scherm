@@ -1,0 +1,248 @@
+__author__ = 'Cindy'
+ 
+import  film_api
+from tkinter import *
+import csv
+from tkinter import ttk
+import tkinter.messagebox
+import voor_gebruikers
+import accounts_voor_aanbieders
+ 
+ 
+ 
+# scherm config
+scherm = Tk()
+scherm.title('Thuisbioscoop')
+scherm.minsize(width=500, height=300)
+scherm.maxsize(width=1000, height=750)
+ 
+# ------------kopers-------------------
+def kopers():
+    koper = Label(scherm, text="Gasten", pady=10)
+    koper.grid(row=0, column=1)
+ 
+# config voor naamveld
+def naam_veld():
+    naam = Label(scherm, text="Naam:", padx=10)
+ 
+    # var om input van gebruiker in op te slaan
+    global naamInput
+    naamInput = StringVar()
+    naamVeld = Entry(scherm, textvariable=naamInput)
+    # grid voor het naam veld sticks naar richts (east)
+    naam.grid(row=1, sticky=E)
+    naamVeld.grid(row=1, column=1)
+ 
+# config voor e-mail veld
+def email_veld():
+    global emailInput
+    emailInput = StringVar()
+    email = Label(scherm, text="E-mail:", padx=10)
+    emailVeld = Entry(scherm, textvariable=emailInput)
+    email.grid(row=2, sticky=E)
+    emailVeld.grid(row=2, column=1)
+ 
+def onselect(event):
+    w = event.widget
+    global value
+    global index
+    index = int(w.curselection()[0])
+    value = w.get(index)
+ 
+# waarde verkrijgen van selected item combobox
+def onpress():
+    return filmInput.get()
+ 
+# ticket schrijven naar csv bestand
+def ticket_schrijven():
+    try:
+        with open('tickets.csv', 'a') as csvfile:
+            writeCSV = csv.writer(csvfile, delimiter=" ")
+            writeCSV.writerow(onpress().split())
+    except:
+        print('geen waarde')
+    finally:
+        csvfile.close()
+ 
+# config voor film veld
+def film_veld():
+    filmdict = film_api.krijg_alle_films_dict() # api call
+    filmNaam = []
+    for film in filmdict:
+        filmNaam.append(film['titel']) # alle film titels opslaan in een list
+ 
+    global filmInput
+    filmInput = StringVar()
+    comboBox = ttk.Combobox(scherm, state="readonly", values=(filmNaam), textvariable=filmInput) # combobox
+    comboBox.grid(row=4, column=1)
+    comboBox.set("Film titel")
+    comboBox.bind('<<ComboboxSelected>>', onpress()) # bind de geselecteerde waarde aan de functie: onpress()
+ 
+    # knop zorgt ervoor dat de waardes worden opgeslagen met de functie: onpress()
+    knop = Button(scherm, text="Bevestig", command=onpress)
+    knop.grid(row=5, column=1)
+ 
+    film = Label(scherm, text="Film:", padx=10)
+    film.grid(row=3, sticky=E)
+    #filmVeld.grid(row=3, column=1)
+ 
+# verkrijg alle variable waardes voor de kopers
+def get_all_input_fields_koper():
+    #print(naamInput.get(), emailInput.get())
+    return naamInput.get(), emailInput.get(), onpress(), ticket_schrijven()
+ 
+# verzend alle gegevens naar een csv bestand (moet nog gedaan worden)
+def verzend_knop():
+    verzenden = Button(scherm,text="Verzenden", command=get_all_input_fields_koper,fg="red", pady=5, padx=5)
+    verzenden.grid(row=7, column=1)
+ 
+# sluiten knop
+def scherm_sluiten():
+    sluit = Button(scherm, text="Sluiten", command=scherm.quit)
+    sluit.grid(row=5, column=1, sticky=W)
+ 
+ 
+ 
+# ---------------Aanbieders----------------
+ 
+ 
+ 
+def aanbieders():
+    aanbieder = Label(scherm, text="Aanbieders", pady=10)
+    aanbieder.grid(row=0, column=3)
+ 
+def account_maken():
+    global user
+    global password
+    password = StringVar()
+    user = StringVar()
+ 
+    # nieuw account label
+    nieuw_account = Label(scherm, text="Account maken:", padx=10, pady=10)
+    nieuw_account.grid(row=1, column=2, sticky=E)
+ 
+    # nieuw account maken label + veld
+    naam_nieuw_account = Label(scherm, text="Nieuwe naam:", padx=10)
+    naam_nieuw_account.grid(row=2, column=2, sticky=E)
+    naam_veld_nieuw = Entry(scherm, textvariable=user)
+    naam_veld_nieuw.grid(row=2, column=3)
+ 
+    # nieuw wachtwoord maken label + veld
+    wachtwoord_nieuw_account = Label(scherm, text="Nieuw wachtwoord:", padx=10)
+    wachtwoord_nieuw_account.grid(row=3, column=2, sticky=E)
+    wachtwoord_veld_nieuw = Entry(scherm, show="*", textvariable=password)
+    wachtwoord_veld_nieuw.grid(row=3, column=3)
+ 
+# verkrijgt alle waardes van het naam en wachtwoord veld
+def get_user_and_password():
+    print(user.get())
+    print(password.get())
+ 
+    # nog een keer een aanroep voor user en password
+    # omdat je bij een button command maar 1 functie kan meegeven
+    return user.get(), password.get(), account_schrijven()
+ 
+# verkrijg de input van het naam veld
+def get_user():
+    return user.get()
+ 
+# verkrijg de input van het wachtwoord veld
+def get_password():
+    return password.get()
+ 
+def account_schrijven():
+    naam = get_user()
+    wachtwoord = get_password()
+    with open('tickets.csv', 'a') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow([naam, wachtwoord])
+ 
+ 
+#-----------------------------------------------------
+ 
+ 
+ 
+# velden voor de aanbieders om te kunnen inloggen
+def aanbieders_inlog():
+    inloggen = Label(scherm, text="Inloggen")
+    inloggen.grid(row=5, column=3)
+ 
+    # globals
+    global userguess
+    global passwordguess
+    userguess = StringVar()
+    passwordguess = StringVar()
+ 
+    # inlog label en veld
+    inlog_naam = Label(scherm, text="Naam:", padx=10)
+    inlog_naam_veld = Entry(scherm, textvariable=userguess)
+    inlog_naam.grid(row=6, column=2, sticky=E)
+    inlog_naam_veld.grid(row=6, column=3)
+ 
+    # wachtwoord label en veld
+    inlog_wachtwoord = Label(scherm, text="Wachtwoord:", padx=10)
+    inlog_wachtwoord_veld = Entry(scherm, show="*", textvariable=passwordguess)
+    inlog_wachtwoord.grid(row=7, column=2, sticky=E)
+    inlog_wachtwoord_veld.grid(row=7, column=3)
+ 
+def get_userguess():
+    return userguess.get()
+ 
+def get_passwordguess():
+    return passwordguess.get()
+ 
+def user_validatie():
+    ''''
+    user = 'test'
+    password = 'test'
+    naam = get_userguess()
+    wachtwoord = get_passwordguess()
+    '''''
+    with open('tickets.csv', 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        for regel in reader:
+            print(regel)
+            if (regel == get_userguess()) & (regel == get_passwordguess()):
+                print('correct')
+            else:
+                tkinter.messagebox.showinfo("Info", "Onjuist wachtwoord of gebruikersnaam")
+ 
+def get_userguess_and_passwordguess():
+    print(userguess.get())
+    print(passwordguess.get())
+    return userguess.get(), passwordguess.get(), user_validatie()
+ 
+# knop om een nieuw account te maken voor de aanbieder
+def maak_nieuw_account_knop():
+    maak_account = Button(scherm, text="Account maken", command=get_user_and_password)
+    maak_account.grid(row=4, column=3, padx=5, pady=5)
+ 
+# knop om in te loggen als aanbieder
+def inlog_knop():
+    login = Button(scherm, text="Login", command=get_userguess_and_passwordguess)
+    login.grid(row=8, column=3, padx=5, pady=5)
+ 
+# knop om uit te loggen als aanbieder
+def uitlog_knop():
+    uitloggen = Button(scherm, text="Uitloggen")
+    uitloggen.grid(row=9, column=3, padx=10, pady=10)
+ 
+# hier functies voor de aanbieders aanroepen
+aanbieders()
+account_maken()
+aanbieders_inlog()
+maak_nieuw_account_knop()
+inlog_knop()
+uitlog_knop()
+ 
+ 
+# hier functies voor de kopers aanroepen
+kopers()
+naam_veld()
+email_veld()
+film_veld()
+verzend_knop()
+ 
+ 
+# zorgt ervoor dat het scherm niet aflsuit in 1 keer
+scherm.mainloop()
