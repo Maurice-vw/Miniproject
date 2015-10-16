@@ -1,0 +1,28 @@
+from tkinter.messagebox import showinfo
+
+__author__ = 'niek'
+
+
+def lees_tickets(titel):
+    tickets_file = open("tickets.csv","r")
+    filtered_tickets = []
+    for regel in tickets_file.readlines():
+        data = regel.split(",")
+        filmnaam = data[2]
+        if filmnaam == titel:
+            filtered_tickets.append(data)
+    tickets_file.close()
+    return filtered_tickets
+
+
+def toon_bezoekers(filmnaam):
+    tickets = lees_tickets(filmnaam)
+
+    filmsstr = ""
+    for ticket in tickets:
+        filmsstr+=ticket[0]+" "+ticket[1]+" "+ticket[3]+"\n"
+
+    showinfo("BEZOEKERS:",filmsstr)
+
+
+toon_bezoekers("Hope Springs")
