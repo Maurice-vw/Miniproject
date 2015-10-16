@@ -1,0 +1,30 @@
+import voor_gebruikers
+
+__author__ = 'Khaid Chouhaibi'
+import voor_gebruikers
+from film_api import krijg_alle_films_dict, lijst_titels
+
+films_dict = krijg_alle_films_dict()
+titels = lijst_titels(films_dict)
+
+
+ticket = voor_gebruikers.vraag_ticket(titels)
+
+print(ticket)
+
+voor_gebruikers.open_ticket(mode="a")
+
+voor_gebruikers.opslaan_ticket(ticket)
+
+voor_gebruikers.sluit_ticket()
+
+
+
+
+"""
+
+try:
+    films_dict = menu_gebruikers.get_alle_films_dict("13-10-2015")
+except:
+    print("ERROR.....!!!")
+    """
