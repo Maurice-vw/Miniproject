@@ -1,0 +1,102 @@
+__author__ = 'niek'
+#import scherm
+import csv
+from tkinter import *
+store_user =["Cindy", "Mariam","Khalid","Niek"]
+store_pass =["gebruiker1","gebruiker2","gebruiker3",'gebruiker4']
+Cindy_films =["Les Dames","You Only Live Twice"]
+Mariam_films =["Hope Springs","Largo Winch"]
+Khalid_films =["Democrats","Edtv"]
+Niek_films =["V for Vendetta"]
+ 
+ 
+def account_maken():
+    user = scherm.get_user()
+    password = scherm.get_password()
+    global store_user
+    global store_pass
+    print(user,password)
+    store_user.append(user)
+    store_pass.append(password)
+    return user, password
+ 
+ 
+def inloggen():
+    userguess = scherm.get_userguess()
+    passwordguess = scherm.get_passwordguess()
+    print(userguess,passwordguess)
+    #userguess=input('User Name:')
+    #passwordguess=input('Password:')
+    ''''
+    while (userguess not in store_user) or (passwordguess not in store_pass):
+        print("dit is een onjuiste user name of wachtwoord")
+        Message.showinfo("Dit is een onjuiste user name of wachtwoord")
+    return userguess
+    '''''
+ 
+def acties(user):
+    actie= 1
+    while True:
+        print(user + " wat wilt u nu gaan doen?")
+        actie = int(input("druk 1 in om uw aanbiedingen te zien of druk 2 in om uit te loggen:"))
+        if actie == 1:
+            bestand= open ('tickets.csv','r')
+            if user=="Cindy":
+                print("dit zijn uw films:"+ str(Cindy_films))
+                print("en dit zijn uw verkochte kaartjes:")
+                for regel in bestand:
+                    for i in range(len(Cindy_films)):
+                        if regel.__contains__(Cindy_films[i]):
+                            print(regel)
+                bestand.close()
+ 
+            elif user=="Mariam":
+                print("dit zijn uw films:"+ str(Mariam_films))
+                print("en dit zijn uw verkochte kaartjes:")
+                for regel in bestand:
+                    for i in range(len(Mariam_films)):
+                        if regel.__contains__(Mariam_films[i]):
+                            print(regel)
+                bestand.close()
+            elif user=="Khalid":
+                print("dit zijn uw films:"+ str(Khalid_films))
+                print("en dit zijn uw verkochte kaartjes:")
+                for regel in bestand:
+                    for i in range(len(Khalid_films)):
+                        if regel.__contains__(Khalid_films[i]):
+                            print(regel)
+                bestand.close()
+            elif user=="Niek":
+                print("dit zijn uw films:"+ str(Niek_films))
+                print("en dit zijn uw verkochte kaartjes:")
+                for regel in bestand:
+                    for i in range(len(Niek_films)):
+                        if regel.__contains__(Niek_films[i]):
+                            print(regel)
+                bestand.close()
+            else:
+                print("Je hebt nog geen aanbiedingen.")
+ 
+        elif actie == 2:
+            print('Je bent nu uitgelogd.')
+            break
+        else:
+            continue
+ 
+while True:
+ 
+    print("Wil je een account maken of inloggen")
+    keuze= int(input("Kies 1 voor accountmaken, 2 voor inloggen en 3 voor afsluiten:"))
+    if keuze == 1:
+        account_maken()
+ 
+    elif keuze == 2:
+        user=inloggen()
+        print ("Welkom,",user, ". U bent nu ingelogd.")
+        acties(user)
+    elif keuze == 3:
+        print ('het programma is afgesloten')
+        break
+    else:
+        print('dit is niet 1,2 of 3')
+        continue
