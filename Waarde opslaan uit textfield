@@ -3,7 +3,6 @@
 def get_var():
     print(var.get())
 
-
 var = StringVar()
 veld = Entry(scherm, textvariable=var)
 veld.grid(row=0, column=1)
