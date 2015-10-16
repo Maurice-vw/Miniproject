@@ -1,0 +1,40 @@
+__author__ = 'Khaid Chouhaibi'
+
+import requests
+import xmltodict
+from tkinter import *
+from io import BytesIO
+from urllib.request import urlopen
+from PIL import Image, ImageTk
+import datetime
+
+def get_vandaag():
+    def flip_back(datumstr):
+        i = datumstr.find("-")
+        datumstr = datumstr[i + 1:] + "-" + datumstr[:i]
+        return datumstr
+    vandaag = str(datetime.date.today())
+    vandaag = flip_back(vandaag)
+    vandaag = flip_back(vandaag[:5])+vandaag[5:]
+    return vandaag
+
+# Vab om ergens anders nog te gebruiken
+
+basis_url = "http://www.filmtotaal.nl/api/filmsoptv.xml?apikey="
+api_key = "0ayainl54m9ltuor72gg4k6mt4v354uz"
+
+
+def krijg_alle_films_dict():
+    url = basis_url + api_key + "&dag=" + get_vandaag() + "&sorteer=0"
+    respons = requests.get(url)
+    dict_resp = xmltodict.parse(respons.content)
+    dict_films = dict_resp["filmsoptv"]["film"]
+    return dict_films
+
+
+def lijst_titels(films_dict):
+    lijst_films = []
+    for film in films_dict:
+        lijst_films.append(film["titel"])
+
+    return lijst_films
