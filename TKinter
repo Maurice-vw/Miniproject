@@ -1,0 +1,51 @@
+from tkinter import *
+#
+__author__ = 'Khaid Chouhaibi'
+
+#klasse Hoofdmenu erft van Frame
+    #init constructor krijgt parent mee
+        #roept init constructor van klasse Frame aan en krijgt self en parent mee
+        #parent wordt toegekent aan self.parent
+    #initUI methode
+        #label voor de kop met text krijgt self mee als parent
+        #label wordt op dit scherm gezet
+        #zet deze scherm in de parent scherm
+
+#klasse Hoofdmenu erft van Frame
+class Hoofdmenu(Frame):
+    #init constructor krijgt parent mee
+    def __init__(self,parent):
+        #roept init constructor van klasse Frame aan en krijgt self en parent mee
+        Frame.__init__(self,parent)
+        #parent wordt toegekent aan self.parent
+        self.parent = parent
+        # er wordt een init-User-Interface methode aangeroepen om de componenten op het scherm te zetten
+        self.initUI()
+        #parent wordt toegekent aan self.parent
+    #initUI methode
+    def initUI(self):
+        #label voor de kop met text krijgt self mee als parent
+        self.koptext = Label(self,text="Kies uit het volgende:")
+        #koptext wordt op dit scherm gezet
+        self.koptext.pack()
+
+        self.button1 = Button(self,text="ok",command=lambda:print("Click"))
+        self.button1.pack()
+
+        self.button2 = Button(self,text="ok",command=lambda:print("Click"))
+        self.button2.pack()
+
+        self.button2 = Button(self,text="ok",command=lambda:print("Click"))
+        self.button2.pack()
+
+        #zet deze scherm in de parent scherm
+        self.pack()
+
+
+
+
+root = Tk()
+
+hoofdmenu = Hoofdmenu(root)
+
+root.mainloop()
